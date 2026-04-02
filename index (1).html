@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebBrief — Levantamiento de negocios locales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+:root{--bg:#0d0d0d;--bg2:#141414;--bg3:#1a1a1a;--border:rgba(255,255,255,0.08);--border-h:rgba(255,255,255,0.16);--accent:#c8ff00;--accent2:#00d4ff;--text:#f0f0f0;--muted:#888;--muted2:#444;--card:#161616;--r:12px;--rs:8px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:"DM Sans",sans-serif;font-size:15px;line-height:1.6;min-height:100vh;}
+.app{max-width:760px;margin:0 auto;padding:2rem 1.25rem 6rem;}
+.header{display:flex;align-items:center;gap:12px;margin-bottom:3rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);}
+.logo-mark{width:36px;height:36px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.logo-text{font-family:"Syne",sans-serif;font-weight:800;font-size:18px;letter-spacing:-.02em;}
+.logo-sub{font-size:12px;color:var(--muted);margin-left:auto;}
+.progress-wrap{margin-bottom:2rem;}
+.progress-steps{display:flex;gap:6px;margin-bottom:10px;}
+.step-pip{flex:1;height:3px;background:var(--border);border-radius:2px;transition:background .3s;}
+.step-pip.done{background:var(--accent);}
+.step-pip.active{background:var(--accent);opacity:.5;}
+.progress-label{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;}
+.section-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.75rem;margin-bottom:1rem;animation:fadeUp .25s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;}
+.section-num{font-family:"Syne",sans-serif;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;}
+.section-title{font-family:"Syne",sans-serif;font-size:17px;font-weight:700;letter-spacing:-.01em;}
+.section-badge{margin-left:auto;font-size:11px;padding:3px 9px;border-radius:99px;border:1px solid var(--border);color:var(--muted);}
+.section-badge.req{border-color:var(--accent);color:var(--accent);}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:520px){.grid2{grid-template-columns:1fr;}}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.field:last-child{margin-bottom:0;}
+.field label{font-size:13px;font-weight:500;color:rgba(255,255,255,.6);letter-spacing:.01em;}
+.field input,.field select,.field textarea{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:"DM Sans",sans-serif;font-size:14px;padding:10px 13px;width:100%;transition:border-color .2s;appearance:none;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);}
+.field input::placeholder,.field textarea::placeholder{color:var(--muted2);}
+.field textarea{resize:vertical;min-height:80px;line-height:1.5;}
+.field .tip{font-size:12px;color:var(--muted);line-height:1.4;}
+.select-wrap{position:relative;}
+.select-wrap::after{content:"";position:absolute;right:12px;top:50%;transform:translateY(-50%);border:5px solid transparent;border-top-color:var(--muted);pointer-events:none;}
+.pill-group{display:flex;flex-wrap:wrap;gap:7px;}
+.pill{padding:6px 14px;border-radius:99px;border:1px solid var(--border);font-size:13px;cursor:pointer;background:transparent;color:var(--muted);transition:all .15s;user-select:none;font-family:"DM Sans",sans-serif;}
+.pill:hover{border-color:var(--border-h);color:var(--text);}
+.pill.active{background:rgba(200,255,0,.1);border-color:var(--accent);color:var(--accent);font-weight:500;}
+.card-select{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:480px){.card-select{grid-template-columns:1fr;}}
+.select-card{border:1px solid var(--border);border-radius:var(--rs);padding:14px;cursor:pointer;transition:all .15s;}
+.select-card:hover{border-color:var(--border-h);}
+.select-card.active{border-color:var(--accent);background:rgba(200,255,0,.05);}
+.select-card .sc-icon{width:32px;height:32px;background:var(--bg3);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;color:var(--muted);transition:all .15s;}
+.select-card.active .sc-icon{background:rgba(200,255,0,.15);color:var(--accent);}
+.select-card .sc-title{font-size:14px;font-weight:500;margin-bottom:4px;}
+.select-card .sc-desc{font-size:12px;color:var(--muted);line-height:1.4;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(13,13,13,.95);backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:1rem 1.25rem;display:flex;align-items:center;gap:12px;justify-content:center;z-index:100;}
+.nav-inner{max-width:760px;width:100%;display:flex;align-items:center;gap:12px;}
+.btn{padding:10px 22px;border-radius:var(--rs);font-family:"DM Sans",sans-serif;font-size:14px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:all .15s;display:flex;align-items:center;gap:7px;}
+.btn:hover:not(:disabled){border-color:var(--border-h);color:var(--text);}
+.btn:disabled{opacity:.3;cursor:not-allowed;}
+.btn-primary{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600;margin-left:auto;}
+.btn-primary:hover:not(:disabled){background:#d4ff1a;}
+.step-counter{font-size:13px;color:var(--muted);margin-left:auto;}
+/* OUTPUT */
+.output-section{animation:fadeUp .3s ease;}
+.output-title{font-family:"Syne",sans-serif;font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:1.5rem;}
+.output-accent{color:var(--accent);}
+.tabs{display:flex;gap:2px;margin-bottom:1rem;background:var(--bg3);border-radius:var(--rs);padding:3px;}
+.tab{flex:1;padding:8px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all .15s;font-family:"DM Sans",sans-serif;text-align:center;}
+.tab.active{background:var(--card);color:var(--text);}
+.output-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;font-family:"DM Mono","Fira Mono",monospace;font-size:12.5px;line-height:1.65;color:#c8d0d8;white-space:pre-wrap;max-height:380px;overflow-y:auto;word-break:break-word;}
+.action-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem;align-items:center;}
+.btn-copy{padding:10px 18px;border-radius:var(--rs);font-family:"DM Sans",sans-serif;font-size:14px;font-weight:600;cursor:pointer;background:var(--accent);color:#000;border:none;display:flex;align-items:center;gap:7px;transition:all .15s;}
+.btn-copy:hover{background:#d4ff1a;}
+.btn-outline{padding:10px 18px;border-radius:var(--rs);font-family:"DM Sans",sans-serif;font-size:14px;cursor:pointer;background:transparent;color:var(--text);border:1px solid var(--border);display:flex;align-items:center;gap:7px;transition:all .15s;font-weight:500;}
+.btn-outline:hover{border-color:var(--border-h);}
+.copy-toast{font-size:12px;color:var(--accent);display:flex;align-items:center;gap:5px;opacity:0;transition:opacity .2s;padding:10px 0;}
+.copy-toast.show{opacity:1;}
+.summary-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.25rem;}
+.chip{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:5px 12px;font-size:12px;display:flex;align-items:center;gap:6px;}
+.chip-label{color:var(--muted);}
+.chip-val{color:var(--text);font-weight:500;}
+/* SKILLS TAB */
+.skills-intro{font-size:13px;color:var(--muted);margin-bottom:1.25rem;line-height:1.6;}
+.skills-intro code{font-size:11px;background:var(--bg3);padding:2px 6px;border-radius:4px;color:var(--accent2);}
+.skill-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden;transition:border-color .2s;}
+.skill-card:hover{border-color:var(--border-h);}
+.skill-header{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none;}
+.skill-icon-wrap{width:36px;height:36px;background:rgba(200,255,0,.08);border:1px solid rgba(200,255,0,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0;}
+.skill-info{flex:1;min-width:0;}
+.skill-label{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.skill-desc{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.skill-filename{font-size:11px;font-family:monospace;color:var(--accent2);}
+.skill-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.skill-btn{padding:6px 12px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;font-family:"DM Sans",sans-serif;display:flex;align-items:center;gap:5px;}
+.skill-btn-dl{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.skill-btn-dl:hover{border-color:var(--accent);color:var(--accent);}
+.skill-btn-preview{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.skill-btn-preview:hover{border-color:var(--border-h);color:var(--text);}
+.skill-preview{display:none;border-top:1px solid var(--border);padding:0;}
+.skill-preview.open{display:block;}
+.skill-preview-inner{padding:16px;font-family:monospace;font-size:11.5px;line-height:1.7;color:#b0bcc8;white-space:pre-wrap;max-height:260px;overflow-y:auto;background:var(--bg2);word-break:break-word;}
+.skills-dl-all{display:flex;width:100%;padding:12px 18px;background:rgba(200,255,0,.07);border:1px solid rgba(200,255,0,.2);border-radius:var(--r);color:var(--accent);font-size:14px;font-weight:600;cursor:pointer;align-items:center;justify-content:center;gap:9px;transition:all .15s;font-family:"DM Sans",sans-serif;margin-top:14px;}
+.skills-dl-all:hover{background:rgba(200,255,0,.13);}
+.hidden{display:none!important;}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="logo-mark"><i data-lucide="zap" style="width:18px;height:18px"></i></div>
+    <span class="logo-text">WebBrief</span>
+    <span class="logo-sub">levantamiento para negocios locales</span>
+  </header>
+
+  <div class="progress-wrap" id="progress-wrap">
+    <div class="progress-steps" id="pip-steps"></div>
+    <div class="progress-label">
+      <span id="step-label-left">Información básica</span>
+      <span id="step-label-right">Paso 1 de 5</span>
+    </div>
+  </div>
+
+  <!-- PASO 1 -->
+  <div class="section-card" id="step1">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Información básica</span>
+      <span class="section-badge req">Requerido</span>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Nombre del negocio</label><input id="f-nombre" type="text" placeholder="Ej: Ferretería Don Marcos"></div>
+      <div class="field"><label>Zona / sector</label><input id="f-zona" type="text" placeholder="Ej: Los Minas, Santo Domingo"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Teléfono / WhatsApp</label><input id="f-tel" type="text" placeholder="+1 809 000 0000"></div>
+      <div class="field"><label>Instagram / Facebook</label><input id="f-social" type="text" placeholder="@elnegocio"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>¿Cuántos años lleva operando?</label>
+        <div class="select-wrap"><select id="f-anos"><option value="">Seleccionar...</option><option>Menos de 1 año</option><option>1–3 años</option><option>4–10 años</option><option>Más de 10 años</option></select></div>
+      </div>
+      <div class="field"><label>Situación web actual</label>
+        <div class="select-wrap"><select id="f-siteactual"><option value="">Seleccionar...</option><option>No tienen nada</option><option>Solo tienen redes sociales</option><option>Tienen web desactualizada</option><option>Tienen web pero quieren mejorar</option></select></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASO 2 -->
+  <div class="section-card hidden" id="step2">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Rubro y servicios</span>
+    </div>
+    <div class="field">
+      <label>Categoría del negocio</label>
+      <div class="pill-group" id="cat-group">
+        <button class="pill" data-val="Restaurante / Comida">Restaurante / Comida</button>
+        <button class="pill" data-val="Salud / Belleza">Salud / Belleza</button>
+        <button class="pill" data-val="Ferretería / Construcción">Ferretería / Construcción</button>
+        <button class="pill" data-val="Servicio profesional">Servicio profesional</button>
+        <button class="pill" data-val="Tienda / Retail">Tienda / Retail</button>
+        <button class="pill" data-val="Mecánica / Taller">Mecánica / Taller</button>
+        <button class="pill" data-val="Educación / Academia">Educación / Academia</button>
+        <button class="pill" data-val="Inmobiliaria">Inmobiliaria</button>
+        <button class="pill" data-val="Gym / Fitness">Gym / Fitness</button>
+        <button class="pill" data-val="Transporte / Logística">Transporte / Logística</button>
+        <button class="pill" data-val="Farmacia / Salud">Farmacia / Salud</button>
+        <button class="pill" data-val="Otro">Otro</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>¿A qué se dedican exactamente? (con tus palabras)</label>
+      <textarea id="f-dedicacion" placeholder="Ej: Vendemos materiales de construcción al por mayor y al detalle. También hacemos entrega a domicilio..."></textarea>
+    </div>
+    <div class="field">
+      <label>Principales servicios o productos (uno por línea)</label>
+      <textarea id="f-servicios" placeholder="Cemento, bloques, varillas&#10;Pintura y plomería&#10;Entrega a domicilio"></textarea>
+    </div>
+  </div>
+
+  <!-- PASO 3 -->
+  <div class="section-card hidden" id="step3">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Audiencia y diferenciadores</span>
+    </div>
+    <div class="field">
+      <label>¿A quién le vende principalmente?</label>
+      <div class="pill-group" id="aud-group">
+        <button class="pill" data-val="Familias del barrio">Familias del barrio</button>
+        <button class="pill" data-val="Empresas y negocios">Empresas y negocios</button>
+        <button class="pill" data-val="Constructores / contratistas">Constructores / contratistas</button>
+        <button class="pill" data-val="Jóvenes / estudiantes">Jóvenes / estudiantes</button>
+        <button class="pill" data-val="Turistas">Turistas</button>
+        <button class="pill" data-val="Profesionales">Profesionales</button>
+        <button class="pill" data-val="Público general">Público general</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>¿Por qué te eligen a ti y no a la competencia?</label>
+      <textarea id="f-diferencial" placeholder="Ej: 15 años en el barrio, precios competitivos, atención personalizada..."></textarea>
+    </div>
+    <div class="field">
+      <label>¿Algo especial visualmente? (local, ambiente, productos)</label>
+      <textarea id="f-visual" placeholder="Ej: Local muy amplio, maquinaria moderna, ambiente familiar..."></textarea>
+    </div>
+    <div class="field">
+      <label>Rango de precios</label>
+      <div class="pill-group" id="precio-group">
+        <button class="pill" data-val="Económico / popular">Económico / popular</button>
+        <button class="pill" data-val="Precio medio">Precio medio</button>
+        <button class="pill" data-val="Premium / exclusivo">Premium / exclusivo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASO 4 -->
+  <div class="section-card hidden" id="step4">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Objetivo del sitio</span>
+    </div>
+    <div class="field">
+      <label>¿Qué quiere lograr el dueño?</label>
+      <div class="pill-group" id="obj-group">
+        <button class="pill" data-val="Aparecer en Google">Aparecer en Google</button>
+        <button class="pill" data-val="Recibir cotizaciones o mensajes">Recibir cotizaciones</button>
+        <button class="pill" data-val="Mostrar catálogo o menú">Mostrar catálogo / menú</button>
+        <button class="pill" data-val="Generar confianza y credibilidad">Generar confianza</button>
+        <button class="pill" data-val="Vender en línea">Vender en línea</button>
+        <button class="pill" data-val="Atraer clientes nuevos">Atraer clientes nuevos</button>
+        <button class="pill" data-val="Mostrar ubicación y horarios">Ubicación y horarios</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Tipo de sitio recomendado</label>
+      <div class="card-select">
+        <div class="select-card" data-group="tipo" data-val="Landing page" onclick="selectCard(this,'tipo')">
+          <div class="sc-icon"><i data-lucide="layout-template" style="width:16px;height:16px"></i></div>
+          <div class="sc-title">Landing page</div>
+          <div class="sc-desc">Una página potente. Ideal para un servicio claro o conversión rápida.</div>
+        </div>
+        <div class="select-card" data-group="tipo" data-val="Sitio web completo" onclick="selectCard(this,'tipo')">
+          <div class="sc-icon"><i data-lucide="layout-dashboard" style="width:16px;height:16px"></i></div>
+          <div class="sc-title">Sitio web completo</div>
+          <div class="sc-desc">Varias secciones navegables. Ideal para múltiples servicios o catálogo.</div>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Tono de comunicación</label>
+      <div class="card-select">
+        <div class="select-card" data-group="tono" data-val="Profesional y serio" onclick="selectCard(this,'tono')">
+          <div class="sc-title">Profesional y serio</div>
+          <div class="sc-desc">Formal, inspira confianza, lenguaje técnico.</div>
+        </div>
+        <div class="select-card" data-group="tono" data-val="Cercano y amigable" onclick="selectCard(this,'tono')">
+          <div class="sc-title">Cercano y amigable</div>
+          <div class="sc-desc">Habla de tú, cálido, accesible para todos.</div>
+        </div>
+        <div class="select-card" data-group="tono" data-val="Moderno y aspiracional" onclick="selectCard(this,'tono')">
+          <div class="sc-title">Moderno y aspiracional</div>
+          <div class="sc-desc">Estético, premium, para clientes exigentes.</div>
+        </div>
+        <div class="select-card" data-group="tono" data-val="Energético y dinámico" onclick="selectCard(this,'tono')">
+          <div class="sc-title">Energético y dinámico</div>
+          <div class="sc-desc">Activo, directo, gym, delivery, deportes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASO 5 -->
+  <div class="section-card hidden" id="step5">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">Recursos disponibles</span>
+      <span class="section-badge">Opcional</span>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Colores del negocio</label><input id="f-colores" type="text" placeholder="Ej: Azul y blanco, rojo y negro"></div>
+      <div class="field"><label>¿Tienen logo?</label>
+        <div class="select-wrap"><select id="f-logo"><option value="">Seleccionar...</option><option>Sí, tienen logo</option><option>No, necesitan logo</option><option>Tienen algo pero quieren mejorar</option></select></div>
+      </div>
+    </div>
+    <div class="field">
+      <label>¿Tienen fotos del local o productos?</label>
+      <div class="pill-group" id="fotos-group">
+        <button class="pill" data-val="Sí, buenas fotos">Sí, buenas fotos</button>
+        <button class="pill" data-val="Pocas o baja calidad">Pocas o baja calidad</button>
+        <button class="pill" data-val="No tienen fotos">No tienen</button>
+        <button class="pill" data-val="Se pueden tomar en visita">Se pueden tomar</button>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Horario de atención</label><input id="f-horario" type="text" placeholder="Ej: Lun–Sáb 8am–6pm"></div>
+      <div class="field"><label>Dirección física</label><input id="f-direccion" type="text" placeholder="Calle, barrio, ciudad"></div>
+    </div>
+    <div class="field"><label>Referencias visuales (sitios que le gusten)</label><input id="f-refs" type="text" placeholder="Ej: airbnb.com, competidor que admiren..."></div>
+    <div class="field"><label>Notas del levantamiento (observaciones tuyas)</label>
+      <textarea id="f-notas" placeholder="Ambiente del local, actitud del dueño, oportunidades que notes..."></textarea>
+    </div>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="output-section hidden" id="output-section">
+    <div class="output-title">Brief <span class="output-accent">generado</span></div>
+    <div class="summary-grid" id="summary-chips"></div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('prompt')">Prompt</button>
+      <button class="tab" onclick="switchTab('context')">CLAUDE.md</button>
+      <button class="tab" onclick="switchTab('skills')">Skills</button>
+    </div>
+
+    <div id="tab-prompt">
+      <div class="output-box" id="output-prompt"></div>
+      <div class="action-row">
+        <button class="btn-copy" onclick="copyOut('prompt')"><i data-lucide="copy" style="width:15px;height:15px"></i> Copiar prompt</button>
+        <button class="btn-outline" onclick="newBrief()"><i data-lucide="refresh-ccw" style="width:15px;height:15px"></i> Nuevo</button>
+        <span class="copy-toast" id="toast-prompt"><i data-lucide="check" style="width:13px;height:13px"></i> Copiado</span>
+      </div>
+    </div>
+
+    <div id="tab-context" class="hidden">
+      <div class="output-box" id="output-context"></div>
+      <div class="action-row">
+        <button class="btn-copy" onclick="copyOut('context')"><i data-lucide="copy" style="width:15px;height:15px"></i> Copiar CLAUDE.md</button>
+        <button class="btn-outline" onclick="dlFile('CLAUDE.md', document.getElementById('output-context').textContent)"><i data-lucide="download" style="width:15px;height:15px"></i> Descargar</button>
+        <span class="copy-toast" id="toast-context"><i data-lucide="check" style="width:13px;height:13px"></i> Copiado</span>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px">Guarda como <code style="font-size:11px;background:var(--bg3);padding:2px 6px;border-radius:4px;color:var(--accent2)">CLAUDE.md</code> en la raíz del proyecto antes de abrir Claude Code.</p>
+    </div>
+
+    <div id="tab-skills" class="hidden">
+      <p class="skills-intro">Coloca los archivos <code>.md</code> en la carpeta <code>/skills/</code> del proyecto. Claude Code los leerá automáticamente cuando los referencie el <code>CLAUDE.md</code>. Puedes previsualizar cada skill antes de descargar.</p>
+      <div id="skills-list"></div>
+      <button class="skills-dl-all" onclick="dlAllSkills()">
+        <i data-lucide="package-2" style="width:18px;height:18px"></i>
+        Descargar todas las skills
+      </button>
+    </div>
+  </div>
+</div>
+
+<nav class="nav-bar" id="nav-bar">
+  <div class="nav-inner">
+    <button class="btn" id="btn-back" onclick="prevStep()" disabled>
+      <i data-lucide="arrow-left" style="width:15px;height:15px"></i> Atrás
+    </button>
+    <span class="step-counter" id="step-counter">Paso 1 de 5</span>
+    <button class="btn btn-primary" id="btn-next" onclick="nextStep()">
+      Siguiente <i data-lucide="arrow-right" style="width:15px;height:15px"></i>
+    </button>
+  </div>
+</nav>
+
+<script>
+const SKILLS=[
+  {filename:"SKILL_web_brief.md",icon:"layout-template",label:"Brief → Diseño",desc:"Interpreta el brief y toma decisiones de diseño únicas antes de codear.",title:"SKILL: Web Brief → Decisiones de diseño",content:`# SKILL: Web Brief → Decisiones de diseño
+
+Cuando recibas un brief de negocio local, sigue este proceso antes de escribir una sola línea de código.
+
+---
+
+## 1. Leer el brief completo primero
+
+No empieces a codear. Primero entiende:
+- ¿Qué hace el negocio exactamente?
+- ¿A quién le vende?
+- ¿Qué quiere lograr con el sitio?
+- ¿Qué tono tiene?
+- ¿Qué recursos visuales hay?
+
+---
+
+## 2. Decidir la dirección estética
+
+Basado en el rubro y tono, elige UNA dirección. Ejemplos:
+
+| Rubro + Tono | Dirección estética |
+|---|---|
+| Restaurante + cercano | Editorial cálido, fotografía dominante, serif elegante |
+| Ferretería + popular | Industrial directo, colores fuertes, sin adornos |
+| Gym + energético | Dark, contrastes extremos, tipografía comprimida |
+| Clínica + profesional | Blanco limpio, mucho espacio, azul confianza |
+| Academia + moderno | Geométrico, colores saturados, fuente display bold |
+| Inmobiliaria + premium | Minimal luxury, beige/negro, serif refinado |
+| Barbería + urbano | Retro-moderno, negro y dorado, estética de cartel |
+| Farmacia + confiable | Verde fresco, layout ordenado, iconografía clara |
+
+**Regla**: El diseño debe sentirse hecho para ESE negocio, no para "un negocio genérico".
+
+---
+
+## 3. Paleta de colores
+
+Máximo 3 colores:
+- **Primario**: el color dominante del negocio o rubro
+- **Acento**: un color que genere contraste y llame a la acción
+- **Neutro**: fondo y texto
+
+Define como variables CSS desde el principio:
+\`\`\`css
+:root {
+  --primary: #...;
+  --accent: #...;
+  --bg: #...;
+  --text: #...;
+  --muted: #...;
+}
+\`\`\`
+
+---
+
+## 4. Tipografía
+
+Siempre dos fuentes desde Google Fonts:
+- **Display**: para headlines, nombre del negocio, secciones grandes
+- **Body**: para párrafos, labels, detalles
+
+Pares que funcionan bien:
+- \`Syne\` + \`DM Sans\` → moderno, tech, urbano
+- \`Playfair Display\` + \`Lato\` → premium, restaurante, spa
+- \`Oswald\` + \`Open Sans\` → gym, deportes, construcción
+- \`Cormorant Garamond\` + \`Raleway\` → lujo, joyería, inmobiliaria
+- \`Bebas Neue\` + \`Inter\` → barbería, urbano, impacto
+- \`Nunito\` + \`Source Sans 3\` → educación, salud, farmacia
+- \`Fraunces\` + \`Figtree\` → restaurante artesanal, café, boutique
+
+**NUNCA usar**: Arial, Roboto, Times New Roman como elección principal.
+
+---
+
+## 5. Estructura según tipo de sitio
+
+### Landing page
+\`\`\`
+1. HERO — Headline poderoso + subheadline + CTA principal
+2. PROPUESTA DE VALOR — 3 puntos clave con iconos Lucide
+3. SERVICIOS — Cards o lista visual de lo que ofrecen
+4. DIFERENCIAL — Por qué elegirnos (prueba social, años, etc.)
+5. CTA FINAL — Sección de contacto + botón WhatsApp
+\`\`\`
+
+### Sitio completo
+\`\`\`
+1. NAVBAR — Logo + links de navegación suave
+2. HERO — Impacto visual máximo
+3. SOBRE NOSOTROS — Historia, misión, equipo
+4. SERVICIOS — Grid de servicios con detalle
+5. GALERÍA — Fotos del local o trabajos (si hay)
+6. TESTIMONIOS — Si los tienen
+7. CONTACTO — Formulario o mapa + datos
+8. FOOTER — Links, redes, copyright
+\`\`\`
+
+---
+
+## 6. Animaciones permitidas
+
+Solo estas técnicas, sin librerías externas:
+
+\`\`\`js
+// Reveal al hacer scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+\`\`\`
+
+\`\`\`css
+.reveal { opacity: 0; transform: translateY(24px); transition: all 0.6s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+\`\`\`
+
+Hover states en cards, botones, links — siempre con \`transition: 0.2s\`.
+
+---
+
+## 7. Checklist antes de entregar
+
+- [ ] ¿El diseño se ve único para este negocio?
+- [ ] ¿Hay botón de WhatsApp si tienen número?
+- [ ] ¿Es responsive en móvil?
+- [ ] ¿Se carga rápido? (sin imágenes pesadas externas)
+- [ ] ¿Los iconos son solo de Lucide?
+- [ ] ¿Las fuentes están en Google Fonts?
+- [ ] ¿El CTA principal está visible sin scroll en mobile?
+- [ ] ¿El footer tiene datos de contacto básicos?
+`},
+  {filename:"SKILL_lucide_usage.md",icon:"triangle",label:"Lucide Icons",desc:"Referencia de íconos por rubro. Nunca más buscarlos uno por uno.",title:"SKILL: Lucide Icons — Referencia por negocio",content:`# SKILL: Lucide Icons — Referencia por negocio
+
+Siempre usar Lucide. Nunca emojis. Nunca FontAwesome. Nunca heroicons.
+
+## Setup (siempre este snippet en el <head>)
+
+\`\`\`html
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+\`\`\`
+
+## Uso en HTML
+
+\`\`\`html
+<!-- En el body, usar el atributo data-lucide -->
+<i data-lucide="phone" class="icon"></i>
+
+<!-- Al final del body, inicializar -->
+<script>lucide.createIcons();</script>
+\`\`\`
+
+## CSS para iconos
+
+\`\`\`css
+.icon { width: 20px; height: 20px; stroke-width: 1.75; }
+.icon-sm { width: 16px; height: 16px; }
+.icon-lg { width: 28px; height: 28px; }
+.icon-xl { width: 40px; height: 40px; }
+\`\`\`
+
+---
+
+## Iconos por categoría de negocio
+
+### Contacto y ubicación
+| Propósito | Icono Lucide |
+|---|---|
+| WhatsApp / teléfono | \`phone\` |
+| Dirección | \`map-pin\` |
+| Correo | \`mail\` |
+| Horario | \`clock\` |
+| Ubicación general | \`navigation\` |
+| Redes sociales | \`share-2\` |
+| Instagram | \`instagram\` |
+| Facebook | \`facebook\` |
+
+### Servicios genéricos
+| Propósito | Icono Lucide |
+|---|---|
+| Servicio / solución | \`check-circle\` |
+| Calidad garantizada | \`shield-check\` |
+| Rapidez / delivery | \`zap\` |
+| Precio / costo | \`tag\` |
+| Catálogo / productos | \`grid-3x3\` |
+| Tiempo / experiencia | \`timer\` |
+| Equipo / personal | \`users\` |
+| Atención al cliente | \`headphones\` |
+
+### Restaurante / Comida
+| Propósito | Icono Lucide |
+|---|---|
+| Menú | \`utensils\` |
+| Delivery | \`bike\` |
+| Reservas | \`calendar\` |
+| Chef / cocina | \`chef-hat\` |
+| Bebidas | \`coffee\` |
+| Ingredientes frescos | \`leaf\` |
+| Takeout | \`package\` |
+| Estrella / rating | \`star\` |
+
+### Construcción / Ferretería
+| Propósito | Icono Lucide |
+|---|---|
+| Herramientas | \`wrench\` |
+| Materiales | \`package\` |
+| Construcción | \`hard-hat\` |
+| Medidas | \`ruler\` |
+| Pintura | \`paintbrush\` |
+| Electricidad | \`zap\` |
+| Plomería | \`droplets\` |
+| Entrega | \`truck\` |
+
+### Salud / Belleza / Spa
+| Propósito | Icono Lucide |
+|---|---|
+| Cuidado personal | \`heart\` |
+| Cabello | \`scissors\` |
+| Spa / relajación | \`sparkles\` |
+| Cita / reserva | \`calendar-check\` |
+| Productos | \`bottle\` → usar \`flask-conical\` |
+| Higiene | \`shield\` |
+| Bienestar | \`sun\` |
+| Resultados | \`trending-up\` |
+
+### Gym / Fitness
+| Propósito | Icono Lucide |
+|---|---|
+| Entrenamiento | \`dumbbell\` |
+| Rutinas | \`repeat\` |
+| Progreso | \`trending-up\` |
+| Clases | \`users\` |
+| Nutrición | \`apple\` |
+| Horarios | \`clock\` |
+| Membresía | \`badge-check\` |
+| Fuerza | \`flame\` |
+
+### Educación / Academia
+| Propósito | Icono Lucide |
+|---|---|
+| Cursos | \`book-open\` |
+| Certificados | \`award\` |
+| Profesores | \`graduation-cap\` |
+| Online | \`monitor\` |
+| Aprendizaje | \`lightbulb\` |
+| Progreso | \`bar-chart\` |
+| Inscripción | \`pen-line\` |
+| Comunidad | \`users\` |
+
+### Mecánica / Taller
+| Propósito | Icono Lucide |
+|---|---|
+| Reparación | \`wrench\` |
+| Diagnóstico | \`scan\` |
+| Motor | \`settings\` |
+| Llantas | \`circle\` → \`gauge\` |
+| Eléctrico | \`zap\` |
+| Garantía | \`shield-check\` |
+| Presupuesto | \`receipt\` |
+| Taller | \`hammer\` |
+
+### Inmobiliaria
+| Propósito | Icono Lucide |
+|---|---|
+| Casa / propiedad | \`home\` |
+| Apartamento | \`building-2\` |
+| Búsqueda | \`search\` |
+| Precio | \`dollar-sign\` |
+| Área / medidas | \`maximize-2\` |
+| Ubicación | \`map-pin\` |
+| Cita / visita | \`calendar\` |
+| Agente | \`user-check\` |
+
+### Transporte / Logística
+| Propósito | Icono Lucide |
+|---|---|
+| Camión | \`truck\` |
+| Ruta | \`route\` |
+| Tiempo entrega | \`clock\` |
+| Paquete | \`package\` |
+| Rastreo | \`map\` |
+| Seguro | \`shield\` |
+| Flota | \`bus\` |
+| Carga | \`box\` |
+
+---
+
+## Iconos para secciones comunes
+
+\`\`\`
+Hero CTA principal    → arrow-right
+"Por qué elegirnos"  → check-circle  /  shield-check
+WhatsApp flotante     → message-circle
+Teléfono             → phone
+Ubicación            → map-pin
+Horario              → clock
+Ver más / expandir   → chevron-down
+Cerrar               → x
+Menú mobile          → menu
+Redes sociales       → share-2
+Rating / estrella    → star
+Experiencia / años   → award
+\`\`\`
+
+---
+
+## Botón flotante de WhatsApp
+
+\`\`\`html
+<a href="https://wa.me/1XXXXXXXXXX" class="whatsapp-float" target="_blank">
+  <i data-lucide="message-circle" style="width:26px;height:26px;fill:white;stroke:white"></i>
+</a>
+\`\`\`
+
+\`\`\`css
+.whatsapp-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  z-index: 999;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+}
+.whatsapp-float:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 28px rgba(37,211,102,0.5);
+}
+\`\`\`
+`},
+  {filename:"SKILL_site_structure.md",icon:"layout-dashboard",label:"Estructura de sitios",desc:"Plantillas de estructura por tipo de negocio: restaurante, gym, servicio, etc.",title:"SKILL: Estructura de sitios por tipo de negocio",content:`# SKILL: Estructura de sitios por tipo de negocio
+
+Cada negocio tiene necesidades distintas. No uses la misma estructura para todos.
+Elige la plantilla que más se acerque al brief y ajusta.
+
+---
+
+## Arquitectura base (siempre)
+
+\`\`\`html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[Nombre negocio] — [Descriptor corto]</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=[DISPLAY]:wght@700;800&family=[BODY]:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>/* todo el CSS aquí */</style>
+</head>
+<body>
+  <!-- TODO EL HTML AQUÍ -->
+  <script>
+    lucide.createIcons();
+    // TODO EL JS AQUÍ
+  </script>
+</body>
+</html>
+\`\`\`
+
+---
+
+## Plantilla A — Restaurante / Comida
+
+**Prioridad**: que la comida se vea bien. Fotografía como protagonista.
+
+\`\`\`
+┌─────────────────────────────┐
+│  NAVBAR  Logo + Nav + CTA   │
+├─────────────────────────────┤
+│  HERO    Foto full-screen   │
+│          Headline + CTA     │
+├─────────────────────────────┤
+│  DESTACADOS  3 platos top   │
+├─────────────────────────────┤
+│  MENÚ   Categorías + items  │
+├─────────────────────────────┤
+│  HISTORIA / CHEF            │
+├─────────────────────────────┤
+│  GALERÍA  Fotos ambiente    │
+├─────────────────────────────┤
+│  HORARIOS + UBICACIÓN       │
+├─────────────────────────────┤
+│  FOOTER                     │
+└─────────────────────────────┘
+\`\`\`
+
+CTA principal: **"Ver menú"** o **"Reservar mesa"**
+Botón secundario: **WhatsApp para pedidos**
+
+---
+
+## Plantilla B — Servicio profesional (plomero, electricista, contador, abogado)
+
+**Prioridad**: confianza y facilidad para contactar.
+
+\`\`\`
+┌─────────────────────────────┐
+│  HERO    Propuesta + CTA    │  ← "Soluciona tu problema hoy"
+├─────────────────────────────┤
+│  SERVICIOS  Grid 3 col      │
+├─────────────────────────────┤
+│  POR QUÉ ELEGIRNOS  3 pts  │
+├─────────────────────────────┤
+│  PROCESO  Cómo funciona     │  ← 3-4 pasos numerados
+├─────────────────────────────┤
+│  TESTIMONIOS                │
+├─────────────────────────────┤
+│  CONTACTO  Grande y claro   │
+├─────────────────────────────┤
+│  FOOTER                     │
+└─────────────────────────────┘
+\`\`\`
+
+CTA principal: **"Solicitar cotización"** → abre WhatsApp
+
+---
+
+## Plantilla C — Tienda / Retail / Ferretería
+
+**Prioridad**: mostrar variedad de productos y facilitar el contacto para pedidos.
+
+\`\`\`
+┌─────────────────────────────┐
+│  HERO    Oferta o categoría │
+├─────────────────────────────┤
+│  CATEGORÍAS  Iconos + links │
+├─────────────────────────────┤
+│  PRODUCTOS DESTACADOS       │
+├─────────────────────────────┤
+│  BANNER  Entrega / Promo    │
+├─────────────────────────────┤
+│  POR QUÉ COMPRARNOS         │
+├─────────────────────────────┤
+│  CONTACTO + UBICACIÓN       │
+├─────────────────────────────┤
+│  FOOTER                     │
+└─────────────────────────────┘
+\`\`\`
+
+CTA principal: **"Pedir por WhatsApp"**
+
+---
+
+## Plantilla D — Salud / Belleza / Spa / Peluquería
+
+**Prioridad**: estética visual, transmitir cuidado y profesionalismo.
+
+\`\`\`
+┌─────────────────────────────┐
+│  HERO    Visual + Booking   │
+├─────────────────────────────┤
+│  SERVICIOS  Cards elegantes │
+├─────────────────────────────┤
+│  GALERÍA  Before/After      │
+├─────────────────────────────┤
+│  EQUIPO  Fotos + nombres    │
+├─────────────────────────────┤
+│  TESTIMONIOS                │
+├─────────────────────────────┤
+│  AGENDAR CITA  CTA grande   │
+├─────────────────────────────┤
+│  FOOTER                     │
+└─────────────────────────────┘
+\`\`\`
+
+CTA principal: **"Agendar cita"** → WhatsApp o formulario
+
+---
+
+## Plantilla E — Gym / Fitness / Academia deportiva
+
+**Prioridad**: energía, motivación, membresías y horarios claros.
+
+\`\`\`
+┌─────────────────────────────┐
+│  HERO    Dark + Bold + CTA  │
+├─────────────────────────────┤
+│  STATS   Miembros/Años/etc  │  ← Números grandes animados
+├─────────────────────────────┤
+│  SERVICIOS / CLASES         │
+├─────────────────────────────┤
+│  PLANES / MEMBRESÍAS        │  ← Pricing cards
+├─────────────────────────────┤
+│  INSTALACIONES  Galería     │
+├─────────────────────────────┤
+│  HORARIOS  Tabla o grid     │
+├─────────────────────────────┤
+│  CTA  "Primer clase gratis" │
+├─────────────────────────────┤
+│  FOOTER                     │
+└─────────────────────────────┘
+\`\`\`
+
+---
+
+## Plantilla F — Educación / Academia / Cursos
+
+**Prioridad**: credibilidad académica y proceso de inscripción claro.
+
+\`\`\`
+┌─────────────────────────────┐
+│  HERO    Resultado prometido│  ← "Aprende X en Y semanas"
+├─────────────────────────────┤
+│  CURSOS  Cards con detalle  │
+├─────────────────────────────┤
+│  METODOLOGÍA  Cómo aprenden │
+├─────────────────────────────┤
+│  INSTRUCTORES  Credenciales │
+├─────────────────────────────┤
+│  TESTIMONIOS / EGRESADOS    │
+├─────────────────────────────┤
+│  PRECIOS / INSCRIPCIÓN      │
+├─────────────────────────────┤
+│  PREGUNTAS FRECUENTES       │
+├─────────────────────────────┤
+│  FOOTER                     │
+└─────────────────────────────┘
+\`\`\`
+
+---
+
+## Plantilla G — Inmobiliaria
+
+**Prioridad**: propiedades destacadas y credibilidad del agente.
+
+\`\`\`
+┌─────────────────────────────┐
+│  HERO    Buscador o tagline │
+├─────────────────────────────┤
+│  PROPIEDADES DESTACADAS     │  ← Cards con foto, precio, área
+├─────────────────────────────┤
+│  CATEGORÍAS  Venta / Alq.   │
+├─────────────────────────────┤
+│  PROCESO  Cómo trabajamos   │
+├─────────────────────────────┤
+│  AGENTES / EQUIPO           │
+├─────────────────────────────┤
+│  TESTIMONIOS                │
+├─────────────────────────────┤
+│  CONTACTO                   │
+└─────────────────────────────┘
+\`\`\`
+
+---
+
+## Plantilla H — Landing page universal
+
+Cuando el objetivo es simple: un mensaje + un CTA. Cualquier rubro.
+
+\`\`\`
+┌─────────────────────────────┐
+│  HERO    Headline + CTA     │  ← Todo above the fold
+├─────────────────────────────┤
+│  PROPUESTA  3 bullets clave │
+├─────────────────────────────┤
+│  SERVICIOS  Simple list     │
+├─────────────────────────────┤
+│  DIFERENCIAL  Por qué aquí  │
+├─────────────────────────────┤
+│  CTA FINAL  Bold + directo  │
+└─────────────────────────────┘
+\`\`\`
+
+**Regla landing**: el primer CTA debe ser visible sin hacer scroll en móvil.
+
+---
+
+## Componentes reutilizables
+
+### Stats animados
+\`\`\`js
+function animateCount(el, target, duration = 1500) {
+  let start = 0;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start += step;
+    if (start >= target) { el.textContent = target + '+'; clearInterval(timer); }
+    else el.textContent = Math.floor(start) + '+';
+  }, 16);
+}
+\`\`\`
+
+### Accordion FAQ
+\`\`\`js
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.addEventListener('click', () => {
+    const answer = q.nextElementSibling;
+    const isOpen = answer.style.maxHeight;
+    document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = '');
+    if (!isOpen) answer.style.maxHeight = answer.scrollHeight + 'px';
+  });
+});
+\`\`\`
+
+### Navbar que cambia al scroll
+\`\`\`js
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+\`\`\`
+`},
+  {filename:"SKILL_design_system.md",icon:"palette",label:"Design System",desc:"Paletas, tipografías y CSS base por rubro y tono.",title:"SKILL: Design System — Paletas y tipografías por rubro",content:`# SKILL: Design System — Paletas y tipografías por rubro
+
+El diseño debe sentirse hecho para ese negocio específico.
+Usa este archivo como punto de partida, luego ajusta al brief.
+
+---
+
+## Regla de las 3 variables obligatorias
+
+Todo proyecto empieza con esto:
+
+\`\`\`css
+:root {
+  /* Colores */
+  --primary: #...;     /* Color dominante del negocio */
+  --accent: #...;      /* CTA, botones, highlights */
+  --bg: #...;          /* Fondo principal */
+  --bg2: #...;         /* Fondo alternativo (secciones) */
+  --text: #...;        /* Texto principal */
+  --muted: #...;       /* Texto secundario */
+  --border: #...;      /* Bordes de cards */
+
+  /* Tipografía */
+  --font-display: 'NombreFuente', sans-serif;
+  --font-body: 'NombreFuente', sans-serif;
+
+  /* Espaciado */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --section-padding: 80px 20px;
+  --max-width: 1100px;
+}
+\`\`\`
+
+---
+
+## Paletas por rubro
+
+### Restaurante casual / comida popular
+\`\`\`css
+--primary: #c0392b;   /* Rojo apetito */
+--accent: #f39c12;    /* Dorado cálido */
+--bg: #fdfaf6;        /* Crema */
+--bg2: #fff8f0;
+--text: #1a1a1a;
+--muted: #6b5e52;
+\`\`\`
+Fuentes: \`Playfair Display\` + \`Lato\`
+
+### Restaurante premium / fine dining
+\`\`\`css
+--primary: #1a1a1a;
+--accent: #c9a84c;    /* Dorado */
+--bg: #faf9f7;
+--bg2: #f0ede8;
+--text: #1a1a1a;
+--muted: #7a7169;
+\`\`\`
+Fuentes: \`Cormorant Garamond\` + \`Raleway\`
+
+### Ferretería / construcción
+\`\`\`css
+--primary: #e67e22;   /* Naranja construcción */
+--accent: #2c3e50;    /* Azul marino oscuro */
+--bg: #ffffff;
+--bg2: #f5f5f5;
+--text: #1c1c1c;
+--muted: #666;
+\`\`\`
+Fuentes: \`Oswald\` + \`Open Sans\`
+
+### Gym / fitness (dark)
+\`\`\`css
+--primary: #111111;
+--accent: #e74c3c;    /* Rojo energía */
+--bg: #0a0a0a;
+--bg2: #141414;
+--text: #f0f0f0;
+--muted: #888;
+\`\`\`
+Fuentes: \`Barlow Condensed\` + \`DM Sans\`
+
+### Gym / fitness (light)
+\`\`\`css
+--primary: #ff6b35;   /* Naranja dinámico */
+--accent: #1a1a2e;
+--bg: #ffffff;
+--bg2: #fff4f0;
+--text: #1a1a1a;
+--muted: #666;
+\`\`\`
+Fuentes: \`Bebas Neue\` + \`Inter\`
+
+### Salud / spa / belleza (femenino)
+\`\`\`css
+--primary: #c8a99a;   /* Rosa nude */
+--accent: #8b6f6f;
+--bg: #fdf8f6;
+--bg2: #f5ede9;
+--text: #2d1f1f;
+--muted: #9b8080;
+\`\`\`
+Fuentes: \`Fraunces\` + \`Figtree\`
+
+### Peluquería / barbería urbana
+\`\`\`css
+--primary: #1a1a1a;
+--accent: #d4a017;    /* Dorado */
+--bg: #f8f5f0;
+--bg2: #eee9e1;
+--text: #1a1a1a;
+--muted: #666;
+\`\`\`
+Fuentes: \`Syne\` + \`DM Sans\`
+
+### Clínica / médico / farmacia
+\`\`\`css
+--primary: #0077b6;   /* Azul confianza */
+--accent: #48cae4;    /* Celeste fresco */
+--bg: #ffffff;
+--bg2: #f0f8ff;
+--text: #1a2940;
+--muted: #5a7a99;
+\`\`\`
+Fuentes: \`Nunito\` + \`Source Sans 3\`
+
+### Academia / educación
+\`\`\`css
+--primary: #6c3fc5;   /* Púrpura conocimiento */
+--accent: #f7b731;    /* Amarillo energía */
+--bg: #ffffff;
+--bg2: #f8f6ff;
+--text: #1a1a2e;
+--muted: #6b6b8a;
+\`\`\`
+Fuentes: \`Syne\` + \`DM Sans\`
+
+### Inmobiliaria premium
+\`\`\`css
+--primary: #2c3e50;
+--accent: #c9a84c;    /* Dorado */
+--bg: #fafaf8;
+--bg2: #f0ede8;
+--text: #1a1a1a;
+--muted: #7a7169;
+\`\`\`
+Fuentes: \`Cormorant Garamond\` + \`Raleway\`
+
+### Mecánica / taller automotriz
+\`\`\`css
+--primary: #1a1a2e;   /* Azul profundo */
+--accent: #e74c3c;    /* Rojo urgencia */
+--bg: #ffffff;
+--bg2: #f2f2f2;
+--text: #1a1a1a;
+--muted: #666;
+\`\`\`
+Fuentes: \`Oswald\` + \`Open Sans\`
+
+### Transporte / logística
+\`\`\`css
+--primary: #2980b9;   /* Azul movimiento */
+--accent: #f39c12;    /* Amarillo señalización */
+--bg: #ffffff;
+--bg2: #f0f6fc;
+--text: #1a2a3a;
+--muted: #5a7a99;
+\`\`\`
+Fuentes: \`Barlow\` + \`DM Sans\`
+
+---
+
+## CSS base reutilizable
+
+\`\`\`css
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1.2;
+}
+
+h1 { font-size: clamp(2.2rem, 6vw, 4rem); }
+h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); }
+h3 { font-size: clamp(1.1rem, 2.5vw, 1.4rem); }
+
+section {
+  padding: var(--section-padding);
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 28px;
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+\`\`\`
+
+---
+
+## Navbar estándar
+
+\`\`\`css
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  transition: all 0.3s;
+}
+nav.scrolled {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 14px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+/* Mobile */
+@media(max-width: 640px) {
+  .nav-links { display: none; }
+}
+\`\`\`
+
+---
+
+## Cards de servicios
+
+\`\`\`css
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.service-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+}
+
+.service-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--primary);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-bottom: 16px;
+}
+
+.service-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.service-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+\`\`\`
+
+---
+
+## Footer mínimo
+
+\`\`\`css
+footer {
+  background: var(--text);
+  color: rgba(255,255,255,0.85);
+  padding: 40px 20px;
+  text-align: center;
+}
+.footer-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+.footer-info {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 20px;
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.footer-links a {
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: white; }
+.footer-copy {
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+}
+\`\`\`
+`},
+  {filename:"SKILL_whatsapp_cta.md",icon:"message-circle",label:"WhatsApp CTA",desc:"Botón flotante, mensajes predefinidos y sección de contacto completa.",title:"SKILL: WhatsApp CTA — Patrones de contacto",content:`# SKILL: WhatsApp CTA — Patrones de contacto
+
+El botón de WhatsApp es el CTA más importante en sitios de negocios locales.
+Implementarlo bien puede duplicar los contactos recibidos.
+
+---
+
+## Regla principal
+
+Si el negocio tiene número de WhatsApp, **siempre** incluir:
+1. Botón flotante fijo en pantalla
+2. Al menos 2 CTAs de WhatsApp en el contenido (hero + sección final)
+
+---
+
+## URL de WhatsApp con mensaje predefinido
+
+\`\`\`js
+// Formato base
+https://wa.me/[CODIGO_PAIS][NUMERO]
+
+// Con mensaje predefinido (recomendado)
+https://wa.me/18090000000?text=Hola,%20me%20interesa%20saber%20más%20sobre%20sus%20servicios
+
+// Función helper
+function waLink(numero, mensaje = 'Hola, me interesa más información') {
+  return \`https://wa.me/\${numero}?text=\${encodeURIComponent(mensaje)}\`;
+}
+\`\`\`
+
+Mensajes predefinidos por rubro:
+\`\`\`js
+const waMensajes = {
+  restaurante:    'Hola, quisiera hacer un pedido 🍽️',
+  construccion:   'Hola, necesito cotizar materiales',
+  servicio:       'Hola, quisiera solicitar una cotización',
+  belleza:        'Hola, quisiera agendar una cita',
+  gym:            'Hola, quisiera información sobre membresías',
+  educacion:      'Hola, quisiera información sobre los cursos',
+  inmobiliaria:   'Hola, estoy interesado en una propiedad',
+  mecanica:       'Hola, necesito revisar mi vehículo',
+  farmacia:       'Hola, quisiera consultar disponibilidad de un producto',
+  general:        'Hola, me interesa más información sobre sus servicios',
+};
+\`\`\`
+
+---
+
+## Botón flotante (implementación completa)
+
+\`\`\`html
+<!-- Pegar justo antes de </body> -->
+<a href="https://wa.me/1XXXXXXXXXX?text=Hola%2C%20me%20interesa%20m%C3%A1s%20informaci%C3%B3n" 
+   class="wa-float" 
+   target="_blank" 
+   rel="noopener"
+   aria-label="Contactar por WhatsApp">
+  <i data-lucide="message-circle" class="wa-icon"></i>
+  <span class="wa-tooltip">¿Hablamos?</span>
+</a>
+\`\`\`
+
+\`\`\`css
+.wa-float {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 60px;
+  height: 60px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 24px rgba(37, 211, 102, 0.35);
+  z-index: 999;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: wa-pulse 3s infinite 2s;
+}
+
+.wa-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 30px rgba(37, 211, 102, 0.5);
+}
+
+.wa-icon {
+  width: 28px;
+  height: 28px;
+  color: white;
+  fill: white;
+  stroke: white;
+}
+
+.wa-tooltip {
+  position: absolute;
+  right: 70px;
+  background: #1a1a1a;
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  font-family: var(--font-body);
+}
+
+.wa-tooltip::after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-left-color: #1a1a1a;
+}
+
+.wa-float:hover .wa-tooltip { opacity: 1; }
+
+@keyframes wa-pulse {
+  0%, 100% { box-shadow: 0 4px 24px rgba(37, 211, 102, 0.35); }
+  50% { box-shadow: 0 4px 40px rgba(37, 211, 102, 0.6); }
+}
+\`\`\`
+
+---
+
+## CTA de WhatsApp en hero
+
+\`\`\`html
+<a href="https://wa.me/1XXXXXXXXXX?text=..." class="btn-wa" target="_blank">
+  <i data-lucide="message-circle" style="width:18px;height:18px"></i>
+  Escríbenos por WhatsApp
+</a>
+\`\`\`
+
+\`\`\`css
+.btn-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 15px 28px;
+  background: #25D366;
+  color: white;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-wa:hover {
+  background: #1ebe5d;
+  transform: translateY(-2px);
+}
+\`\`\`
+
+---
+
+## Sección de contacto final (patrón completo)
+
+\`\`\`html
+<section class="contact-section">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p class="section-label">Contacto</p>
+        <h2>¿Listo para empezar?</h2>
+        <p class="contact-desc">Escríbenos y te respondemos en menos de una hora.</p>
+        
+        <div class="contact-items">
+          <div class="contact-item">
+            <i data-lucide="phone" style="width:18px;height:18px;color:var(--accent)"></i>
+            <a href="tel:+18090000000">+1 809 000 0000</a>
+          </div>
+          <div class="contact-item">
+            <i data-lucide="map-pin" style="width:18px;height:18px;color:var(--accent)"></i>
+            <span>Calle Principal #123, Barrio, Ciudad</span>
+          </div>
+          <div class="contact-item">
+            <i data-lucide="clock" style="width:18px;height:18px;color:var(--accent)"></i>
+            <span>Lun–Sáb 8:00am – 6:00pm</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="contact-cta">
+        <a href="https://wa.me/1XXXXXXXXXX?text=..." class="btn-wa-big" target="_blank">
+          <i data-lucide="message-circle" style="width:24px;height:24px"></i>
+          <span>
+            <strong>Escríbenos ahora</strong>
+            <small>Respuesta en menos de 1 hora</small>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+\`\`\`
+
+\`\`\`css
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+@media(max-width: 640px) { .contact-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  font-size: 15px;
+}
+.contact-item a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.btn-wa-big {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 28px;
+  background: #25D366;
+  color: white;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: all 0.2s;
+  width: 100%;
+}
+.btn-wa-big:hover { background: #1ebe5d; transform: translateY(-2px); }
+.btn-wa-big span { display: flex; flex-direction: column; }
+.btn-wa-big strong { font-size: 17px; font-weight: 700; }
+.btn-wa-big small { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+\`\`\`
+
+---
+
+## Tracking básico (opcional)
+
+Si el cliente quiere saber cuántos clics recibe el botón:
+
+\`\`\`js
+document.querySelectorAll('a[href*="wa.me"]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    // Google Analytics 4
+    if(typeof gtag !== 'undefined') {
+      gtag('event', 'whatsapp_click', {
+        event_category: 'contacto',
+        event_label: btn.className
+      });
+    }
+    // Console log para debug
+    console.log('WhatsApp click:', btn.className);
+  });
+});
+\`\`\`
+`}
+];
+
+let currentStep = 1;
+const TOTAL = 5;
+const stepLabels = ['Información básica','Rubro y servicios','Audiencia y diferenciadores','Objetivo del sitio','Recursos disponibles'];
+let previewOpen = {};
+
+document.addEventListener('DOMContentLoaded',()=>{
+  lucide.createIcons();
+  buildPips();
+  updateNav();
+  setupSingle('cat-group');
+  setupMulti('aud-group');
+  setupMulti('obj-group');
+  setupSingle('precio-group');
+  setupSingle('fotos-group');
+});
+
+function buildPips(){
+  const w=document.getElementById('pip-steps');
+  w.innerHTML='';
+  for(let i=1;i<=TOTAL;i++){
+    const d=document.createElement('div');
+    d.className='step-pip'+(i<currentStep?' done':i===currentStep?' active':'');
+    w.appendChild(d);
+  }
+  document.getElementById('step-label-left').textContent=stepLabels[currentStep-1];
+  document.getElementById('step-label-right').textContent=`Paso ${currentStep} de ${TOTAL}`;
+  document.getElementById('step-counter').textContent=`Paso ${currentStep} de ${TOTAL}`;
+}
+
+function updateNav(){
+  document.getElementById('btn-back').disabled=currentStep===1;
+  const btn=document.getElementById('btn-next');
+  if(currentStep===TOTAL){btn.innerHTML='Generar brief <i data-lucide="sparkles" style="width:15px;height:15px"></i>';}
+  else{btn.innerHTML='Siguiente <i data-lucide="arrow-right" style="width:15px;height:15px"></i>';}
+  lucide.createIcons();
+}
+
+function showStep(n){
+  for(let i=1;i<=TOTAL;i++) document.getElementById('step'+i).classList.toggle('hidden',i!==n);
+  document.getElementById('progress-wrap').classList.remove('hidden');
+  document.getElementById('output-section').classList.add('hidden');
+  document.getElementById('nav-bar').classList.remove('hidden');
+  buildPips();updateNav();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function nextStep(){if(currentStep<TOTAL){currentStep++;showStep(currentStep);}else{generate();}}
+function prevStep(){if(currentStep>1){currentStep--;showStep(currentStep);}}
+
+function setupSingle(id){
+  document.querySelectorAll(`#${id} .pill`).forEach(p=>{
+    p.addEventListener('click',()=>{
+      document.querySelectorAll(`#${id} .pill`).forEach(x=>x.classList.remove('active'));
+      p.classList.add('active');
+    });
+  });
+}
+function setupMulti(id){
+  document.querySelectorAll(`#${id} .pill`).forEach(p=>{
+    p.addEventListener('click',()=>p.classList.toggle('active'));
+  });
+}
+function selectCard(el,group){
+  document.querySelectorAll(`.select-card[data-group="${group}"]`).forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  lucide.createIcons();
+}
+
+function g(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+function pills(id){return[...document.querySelectorAll(`#${id} .pill.active`)].map(p=>p.dataset.val);}
+function card(group){const el=document.querySelector(`.select-card[data-group="${group}"].active`);return el?el.dataset.val:'';}
+
+function switchTab(name){
+  ['prompt','context','skills'].forEach(t=>{document.getElementById('tab-'+t).classList.toggle('hidden',t!==name);});
+  document.querySelectorAll('.tab').forEach((tab,i)=>{tab.classList.toggle('active',['prompt','context','skills'][i]===name);});
+}
+
+function copyOut(which){
+  navigator.clipboard.writeText(document.getElementById('output-'+which).textContent).then(()=>{
+    const t=document.getElementById('toast-'+which);
+    t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);
+  });
+}
+
+function dlFile(filename, content){
+  const a=document.createElement('a');
+  a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(content);
+  a.download=filename;a.click();
+}
+
+function dlAllSkills(){
+  SKILLS.forEach(s=>{
+    setTimeout(()=>dlFile(s.filename,s.content),100);
+  });
+}
+
+function renderSkills(){
+  const list=document.getElementById('skills-list');
+  list.innerHTML='';
+  SKILLS.forEach((s,i)=>{
+    const div=document.createElement('div');
+    div.className='skill-card';
+    div.innerHTML=`
+      <div class="skill-header" onclick="togglePreview(${i})">
+        <div class="skill-icon-wrap"><i data-lucide="${s.icon}" style="width:16px;height:16px"></i></div>
+        <div class="skill-info">
+          <div class="skill-label">${s.label}</div>
+          <div class="skill-desc">${s.desc}</div>
+          <div class="skill-filename">/skills/${s.filename}</div>
+        </div>
+        <div class="skill-actions">
+          <button class="skill-btn skill-btn-preview" onclick="event.stopPropagation();togglePreview(${i})">
+            <i data-lucide="eye" style="width:13px;height:13px"></i> Ver
+          </button>
+          <button class="skill-btn skill-btn-dl" onclick="event.stopPropagation();dlFile('${s.filename}',SKILLS[${i}].content)">
+            <i data-lucide="download" style="width:13px;height:13px"></i>
+          </button>
+        </div>
+      </div>
+      <div class="skill-preview" id="preview-${i}">
+        <div class="skill-preview-inner">${escHtml(s.content)}</div>
+      </div>`;
+    list.appendChild(div);
+  });
+  lucide.createIcons();
+}
+
+function togglePreview(i){
+  const el=document.getElementById('preview-'+i);
+  const isOpen=el.classList.contains('open');
+  document.querySelectorAll('.skill-preview').forEach(p=>p.classList.remove('open'));
+  if(!isOpen) el.classList.add('open');
+}
+
+function escHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function newBrief(){
+  currentStep=1;
+  document.querySelectorAll('input,textarea,select').forEach(el=>{if(el.tagName==='SELECT')el.selectedIndex=0;else el.value='';});
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.select-card').forEach(c=>c.classList.remove('active'));
+  showStep(1);
+  document.getElementById('output-section').classList.add('hidden');
+}
+
+function generate(){
+  const d={
+    nombre:g('f-nombre')||'[Nombre del negocio]',
+    zona:g('f-zona'),tel:g('f-tel'),social:g('f-social'),
+    anos:g('f-anos'),siteActual:g('f-siteactual'),
+    categoria:pills('cat-group').join(', '),
+    dedicacion:g('f-dedicacion'),servicios:g('f-servicios'),
+    audiencia:pills('aud-group').join(', '),
+    diferencial:g('f-diferencial'),visual:g('f-visual'),
+    precio:pills('precio-group').join(''),
+    objetivos:pills('obj-group').join(', '),
+    tipo:card('tipo')||'Landing page',
+    tono:card('tono')||'Cercano y amigable',
+    colores:g('f-colores'),logo:g('f-logo'),
+    fotos:pills('fotos-group').join(''),
+    horario:g('f-horario'),direccion:g('f-direccion'),
+    refs:g('f-refs'),notas:g('f-notas'),
+  };
+
+  const chips=document.getElementById('summary-chips');
+  chips.innerHTML='';
+  [['Negocio',d.nombre],['Tipo',d.tipo],['Categoría',d.categoria||'—'],['Tono',d.tono],['Precio',d.precio||'—']].forEach(([l,v])=>{
+    chips.innerHTML+=`<div class="chip"><span class="chip-label">${l}</span><span class="chip-val">${v}</span></div>`;
+  });
+
+  const serviciosLines=d.servicios?d.servicios.split('\n').filter(Boolean).map(s=>'  - '+s).join('\n'):'  - (no especificado)';
+
+  const prompt=[
+    `Crea un sitio web en HTML + CSS + JS puro para el siguiente negocio local.`,
+    `Todo el código en un solo archivo index.html con CSS y JS embebidos.`,
+    ``,
+    `━━━ DATOS DEL NEGOCIO ━━━`,
+    `Nombre:        ${d.nombre}`,
+    d.zona?`Zona/ciudad:   ${d.zona}`:'',
+    d.tel?`WhatsApp:      ${d.tel}`:'',
+    d.social?`Redes:         ${d.social}`:'',
+    d.anos?`Años operando: ${d.anos}`:'',
+    d.horario?`Horario:       ${d.horario}`:'',
+    d.direccion?`Dirección:     ${d.direccion}`:'',
+    ``,
+    `━━━ RUBRO Y SERVICIOS ━━━`,
+    `Categoría:     ${d.categoria||'—'}`,
+    `Descripción:   ${d.dedicacion||'—'}`,
+    `Servicios/productos:`,
+    serviciosLines,
+    ``,
+    `━━━ AUDIENCIA Y DIFERENCIADORES ━━━`,
+    `Audiencia:     ${d.audiencia||'—'}`,
+    `Diferencial:   ${d.diferencial||'—'}`,
+    d.visual?`Identidad visual: ${d.visual}`:'',
+    `Rango de precio: ${d.precio||'—'}`,
+    ``,
+    `━━━ OBJETIVO DEL SITIO ━━━`,
+    `Objetivos:     ${d.objetivos||'Generar confianza y contacto'}`,
+    `Tipo de sitio: ${d.tipo}`,
+    `Tono:          ${d.tono}`,
+    ``,
+    `━━━ RECURSOS DISPONIBLES ━━━`,
+    d.colores?`Colores de marca: ${d.colores}`:'Colores: No definidos, deducir del rubro y tono',
+    `Logo:          ${d.logo||'No especificado'}`,
+    `Fotos:         ${d.fotos||'No especificado'}`,
+    d.refs?`Referencias:   ${d.refs}`:'',
+    ``,
+    `━━━ INSTRUCCIONES TÉCNICAS ━━━`,
+    `- Arquitectura: HTML + CSS + JS en un solo archivo index.html`,
+    `- Iconos: SOLO usar Lucide Icons (https://unpkg.com/lucide@latest/dist/umd/lucide.min.js)`,
+    `  NO emojis, NO FontAwesome, NO otras librerías de iconos`,
+    `- Diseño único: paleta y tipografía coherente con el negocio. NO diseño genérico`,
+    `- Google Fonts: una fuente display + una body que se complementen`,
+    `- Mobile first, responsive`,
+    `- Animaciones: solo Intersection Observer + CSS transitions`,
+    d.tipo==='Landing page'?
+    `- Estructura landing:\n  1. Hero: headline poderoso + CTA\n  2. Propuesta de valor (3 puntos)\n  3. Servicios / productos\n  4. Diferencial / prueba social\n  5. CTA final con WhatsApp`:
+    `- Estructura sitio completo:\n  1. Navbar con nav suave\n  2. Hero section\n  3. Sobre nosotros\n  4. Servicios con cards\n  5. Por qué elegirnos\n  6. Contacto + mapa o formulario`,
+    d.tel?`- Botón flotante de WhatsApp con número ${d.tel}`:'',
+    d.notas?`\n━━━ NOTAS DEL LEVANTAMIENTO ━━━\n${d.notas}`:'',
+  ].filter(l=>l!=='').join('\n');
+
+  document.getElementById('output-prompt').textContent=prompt;
+
+  const claudeMd=`# ${d.nombre} — Proyecto web
+
+## Contexto
+Sitio web para negocio local. Arquitectura: HTML + CSS + JS puro en un solo \`index.html\`.
+
+## Negocio
+- **Nombre**: ${d.nombre}
+- **Rubro**: ${d.categoria||'—'}
+${d.zona?`- **Zona**: ${d.zona}`:''}
+${d.tel?`- **WhatsApp**: ${d.tel}`:''}
+${d.social?`- **Redes**: ${d.social}`:''}
+${d.horario?`- **Horario**: ${d.horario}`:''}
+${d.direccion?`- **Dirección**: ${d.direccion}`:''}
+
+## Brief
+- **Tipo**: ${d.tipo}
+- **Tono**: ${d.tono}
+- **Audiencia**: ${d.audiencia||'Público general'}
+- **Objetivos**: ${d.objetivos||'Generar contacto'}
+
+## Stack
+- Un solo \`index.html\` con CSS y JS embebidos
+- Iconos: **solo Lucide** (https://unpkg.com/lucide@latest/dist/umd/lucide.min.js)
+- Fuentes: Google Fonts
+
+## Skills disponibles
+Lee estos archivos antes de escribir código:
+- \`/skills/SKILL_web_brief.md\` — Proceso de diseño, estructura, checklist
+- \`/skills/SKILL_lucide_usage.md\` — Referencia de iconos por rubro
+- \`/skills/SKILL_site_structure.md\` — Plantillas de estructura por tipo de negocio
+- \`/skills/SKILL_design_system.md\` — Paletas, tipografías y CSS base
+- \`/skills/SKILL_whatsapp_cta.md\` — Botón flotante y CTAs de WhatsApp
+
+## Reglas de diseño
+1. Diseño único para este negocio, no genérico
+2. Paleta coherente con rubro y tono
+3. Mobile first
+4. Animaciones solo con Intersection Observer o CSS transitions
+5. Nunca emojis como iconos — siempre Lucide
+6. CTA visible sin scroll en mobile
+
+## Estructura del repo
+\`\`\`
+/
+├── index.html
+├── CLAUDE.md
+└── /skills
+    ├── SKILL_web_brief.md
+    ├── SKILL_lucide_usage.md
+    ├── SKILL_site_structure.md
+    ├── SKILL_design_system.md
+    └── SKILL_whatsapp_cta.md
+\`\`\``;
+
+  document.getElementById('output-context').textContent=claudeMd;
+
+  renderSkills();
+
+  for(let i=1;i<=TOTAL;i++) document.getElementById('step'+i).classList.add('hidden');
+  document.getElementById('progress-wrap').classList.add('hidden');
+  document.getElementById('output-section').classList.remove('hidden');
+  document.getElementById('nav-bar').classList.add('hidden');
+  lucide.createIcons();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
